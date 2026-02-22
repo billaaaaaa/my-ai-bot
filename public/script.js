@@ -23,6 +23,8 @@
         chatWindow.style.display = 'none';
     });
 
+    let chatHistory = [];
+
     // Function to add a message to the UI
     function addMessage(text, isUser) {
         const messageDiv = document.createElement('div');
@@ -31,6 +33,12 @@
         messageDiv.textContent = text;
         chatMessages.appendChild(messageDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Update local chat history
+        chatHistory.push({
+            role: isUser ? 'user' : 'model',
+            content: text
+        });
     }
 
     // Send message function
@@ -46,7 +54,10 @@
             const response = await fetch(`${API_BASE_URL}/api/chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message })
+                body: JSON.stringify({
+                    message,
+                    history: chatHistory.slice(0, -1) // Send all but the last user message just added
+                })
             });
 
             const data = await response.json();

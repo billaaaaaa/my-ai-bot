@@ -6,7 +6,7 @@ const aiController = require('../controllers/aiController');
 // POST /api/chat
 router.post('/', async (req, res) => {
     try {
-        const { message } = req.body;
+        const { message, history } = req.body;
 
         if (!message) {
             return res.status(400).json({ error: 'Message is required' });
@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
             });
         }
 
-        const response = await aiController.generateResponse(message, settings.systemInstruction);
+        const response = await aiController.generateResponse(message, settings.systemInstruction, history);
         res.json({
             reply: response,
             botName: settings.botName

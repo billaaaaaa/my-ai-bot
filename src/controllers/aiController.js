@@ -3,8 +3,14 @@ require('dotenv').config();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const generateResponse = async (prompt, systemInstruction) => {
+const generateResponse = async (prompt, systemInstruction, history = []) => {
     try {
+        // Context Trimming: Keep last 10 messages (5 exchanges) to save tokens
+        const trimmedHistory = history.slice(-10).map(msg => ({
+            role: msg.role === 'user' ? 'user' : 'model',
+            parts: [{ text: msg.content || msg.text || "" }]
+        }));
+
         const model = genAI.getGenerativeModel({
             model: "gemini-2.0-flash",
             systemInstruction: systemInstruction || "You are a helpful assistant.",
@@ -28,13 +34,24 @@ const generateResponse = async (prompt, systemInstruction) => {
             ],
         });
 
-        const result = await model.generateContent(prompt);
+        // Use startChat for history-aware generation
+        const chat = model.startChat({
+            history: trimmedHistory,
+        });
+
+        const result = await chat.sendMessage(prompt);
         const response = await result.response;
         const text = response.text();
         return text;
     } catch (error) {
-        console.error('FULL_DETAILED_ERROR:', error);
-        return 'ERROR: ' + error.message;
+        console.error('GENERATE_RESPONSE_ERROR:', error);
+
+        // Handle 429 Too Many Requests specifically
+        if (error.status === 429 || (error.message && error.message.includes('429')) || error.code === 429) {
+            return 'Bot is taking a short breath, please try again in 30 seconds.';
+        }
+
+        return 'ERROR: ' + (error.message || 'Unknown error');
     }
 };
 
