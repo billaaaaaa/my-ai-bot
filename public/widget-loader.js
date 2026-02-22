@@ -15,11 +15,11 @@
     container.innerHTML = `
         <div id="chat-window">
             <div id="chat-header">
-                <span>khareedaree Support</span>
+                <span>EcomNexus Academy Support</span>
                 <button id="close-chat" style="background:none; border:none; color:white; cursor:pointer; font-size:20px;">&times;</button>
             </div>
             <div id="chat-messages">
-                <div class="message ai-message">Assalam-o-Alaikum! Main khareedaree.com ka AI assistant hoon. Main aapki kya madad kar sakta hoon?</div>
+                <div class="message ai-message">Assalam-o-Alaikum! Welcome to EcomNexus Academy. Main Asif ka AI assistant hoon. Main aapko Amazon PPC, WordPress, aur Shopify seekhne mein madad kar sakta hoon. Aap kya seekhna chahte hain?</div>
             </div>
             <div id="chat-input-container">
                 <div class="input-row">

@@ -12,23 +12,17 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ error: 'Message is required' });
         }
 
-        // Fetch active bot settings
+        // Fetch active bot settings (Keep for theme/other settings, but identity is hardcoded)
         let settings = await BotSettings.findOne({ isActive: true });
 
-        // If no settings exist, create default ones (for first run)
-        if (!settings) {
-            settings = await BotSettings.create({
-                botName: 'EcomNexus Assistant',
-                welcomeMessage: 'Assalam-o-Alaikum! Main EcomNexus ka AI assistant hoon. Main aapki kya madad kar sakta hoon?',
-                themeColor: '#4f46e5',
-                isActive: true
-            });
-        }
+        // Hardcoded identity for EcomNexus Academy
+        const botName = settings?.botName || 'EcomNexus Academy';
+        const welcomeMessage = settings?.welcomeMessage || 'Assalam-o-Alaikum! Welcome to EcomNexus Academy. Main Asif ka AI assistant hoon. Main aapko Amazon PPC, WordPress, aur Shopify seekhne mein madad kar sakta hoon. Aap kya seekhna chahte hain?';
 
-        const response = await aiController.generateResponse(message, settings.systemInstruction, history);
+        const response = await aiController.generateResponse(message, null, history);
         res.json({
             reply: response,
-            botName: settings.botName
+            botName: botName
         });
     } catch (error) {
         console.error('Error in chat route:', error);

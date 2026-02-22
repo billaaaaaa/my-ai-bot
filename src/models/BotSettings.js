@@ -4,12 +4,12 @@ const BotSettingsSchema = new mongoose.Schema({
     botName: {
         type: String,
         required: true,
-        default: 'khareedaree AI Assistant'
+        default: 'EcomNexus Academy'
     },
     welcomeMessage: {
         type: String,
         required: true,
-        default: 'Assalam-o-Alaikum! Main khareedaree.com ka AI assistant hoon. Main aapki kya madad kar sakta hoon?'
+        default: 'Assalam-o-Alaikum! Welcome to EcomNexus Academy. Main Asif ka AI assistant hoon. Main aapko Amazon PPC, WordPress, aur Shopify seekhne mein madad kar sakta hoon. Aap kya seekhna chahte hain?'
     },
     themeColor: {
         type: String,
@@ -23,7 +23,7 @@ const BotSettingsSchema = new mongoose.Schema({
     systemInstruction: {
         type: String,
         required: true,
-        default: "You are the official AI customer support agent for khareedaree.com. Your primary role is to assist customers with queries related to the store, products, delivery, and return policies. Always reply politely in Roman Urdu or Urdu."
+        default: "You are the official AI assistant for EcomNexus Academy in Multan. You are an expert in E-commerce, specifically Amazon PPC, WordPress, and Shopify. Your goal is to help students and clients understand these topics. You represent EcomNexus Academy and its founder, Asif. Always reply politely in Roman Urdu or English as per user preference."
     }
 }, { timestamps: true });
 

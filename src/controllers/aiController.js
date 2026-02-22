@@ -3,6 +3,8 @@ require('dotenv').config();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
+const ECONEXUS_SYSTEM_PROMPT = "You are the official AI assistant for EcomNexus Academy in Multan. You are an expert in E-commerce, specifically Amazon PPC, WordPress, and Shopify. Your goal is to help students and clients understand these topics. You represent EcomNexus Academy and its founder, Asif. Always reply politely in Roman Urdu or English as per user preference.";
+
 const generateResponse = async (prompt, systemInstruction, history = []) => {
     try {
         // Context Trimming: Keep last 10 messages (5 exchanges) to save tokens
@@ -13,7 +15,7 @@ const generateResponse = async (prompt, systemInstruction, history = []) => {
 
         const model = genAI.getGenerativeModel({
             model: "gemini-2.0-flash",
-            systemInstruction: systemInstruction || "You are a helpful assistant.",
+            systemInstruction: ECONEXUS_SYSTEM_PROMPT,
             safetySettings: [
                 {
                     category: HarmCategory.HARM_CATEGORY_HARASSMENT,
