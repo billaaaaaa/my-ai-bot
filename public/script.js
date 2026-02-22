@@ -1,5 +1,5 @@
 (function () {
-    const API_BASE_URL = 'http://localhost:3001';
+    const API_BASE_URL = 'https://my-ai-bot-yoje.onrender.com';
 
     const chatButton = document.getElementById('chat-button');
     const chatWindow = document.getElementById('chat-window');
