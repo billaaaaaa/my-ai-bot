@@ -1,4 +1,5 @@
 (function () {
+    console.log("Widget Loading...");
     // Configuration
     const baseUrl = 'https://my-ai-bot-yoje.onrender.com';
 
