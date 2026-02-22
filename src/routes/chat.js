@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const BotSettings = require('../models/BotSettings');
+const aiController = require('../controllers/aiController');
 
 // POST /api/chat
 router.post('/', async (req, res) => {
