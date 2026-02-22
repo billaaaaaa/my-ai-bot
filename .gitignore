@@ -1,0 +1,12 @@
+node_modules/
+.env
+*.log
+package-lock.json
+.gemini/
+.agent/
+brain/
+models_list.json
+models_list_raw.json
+ngrok.log
+ngrok_new.log
+test folder/
