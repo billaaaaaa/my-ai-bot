@@ -14,7 +14,7 @@ try {
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const ECONEXUS_SYSTEM_PROMPT = "You are the official AI assistant for EcomNexus Academy in Multan. You are an expert in E-commerce, specifically Amazon PPC, WordPress, and Shopify. Your goal is to help students and clients understand these topics. You represent EcomNexus Academy and its founder, Asif. Always reply politely in Roman Urdu or English as per user preference.\n\nUse this data as your primary source for answers:\n" + academyInfoStr;
+const ECONEXUS_SYSTEM_PROMPT = "You are EcomNexus Academy's AI. Answer exclusively about Amazon PPC, WordPress, and Shopify.\nUse this data: " + academyInfoStr;
 
 const generateResponse = async (prompt, systemInstruction, history = []) => {
     try {
@@ -52,33 +52,12 @@ const generateResponse = async (prompt, systemInstruction, history = []) => {
             history: trimmedHistory,
         });
 
-        const MAX_RETRIES = 3;
-        for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
-            try {
-                const result = await chat.sendMessage(prompt);
-                const response = await result.response;
-                return response.text();
-            } catch (error) {
-                const isRateLimit = error.status === 429 || (error.message && error.message.includes('429')) || error.code === 429 || (error.statusText && error.statusText.includes('Too Many Requests'));
-
-                if (isRateLimit && attempt < MAX_RETRIES) {
-                    console.log(`429 Error (Rate Limit). Retrying attempt ${attempt} of ${MAX_RETRIES} in ${attempt * 2000}ms...`);
-                    await new Promise(resolve => setTimeout(resolve, attempt * 2000));
-                    continue;
-                }
-
-                if (isRateLimit) {
-                    console.error('GENERATE_RESPONSE_ERROR: Max retries reached for 429 Rate Limit.');
-                    return 'Bot is taking a short breath due to high traffic, please try again in 30 seconds.';
-                }
-
-                console.error('GENERATE_RESPONSE_ERROR:', error);
-                return 'ERROR: ' + (error.message || 'Unknown error');
-            }
-        }
+        const result = await chat.sendMessage(prompt);
+        const response = await result.response;
+        return response.text();
     } catch (error) {
-        console.error('OUTER_GENERATE_RESPONSE_ERROR:', error);
-        return 'ERROR: ' + (error.message || 'Unknown error');
+        console.error('GENERATE_RESPONSE_ERROR:', error);
+        return 'Assalam-o-Alaikum! Main EcomNexus Academy ka AI assistant hoon. Filhal system busy hai, lekin aap Amazon PPC ya WordPress ke bare mein pooch sakte hain.';
     }
 };
 
