@@ -25,7 +25,7 @@ const generateResponse = async (prompt, systemInstruction, history = []) => {
         }));
 
         const model = genAI.getGenerativeModel({
-            model: "gemini-3.1",
+            model: "gemini-2.0-flash",
             systemInstruction: ECONEXUS_SYSTEM_PROMPT,
             safetySettings: [
                 {
